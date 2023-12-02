@@ -74,17 +74,22 @@ func FindValue(s string) int {
 }
 
 func FindFirstDigit(s string, reverse bool) string {
+	numbers := []string{}
+
 	if reverse {
 		s = Reverse(s)
+		for _, word := range NUMBERS {
+			numbers = append(numbers, Reverse(word))
+		}
+	} else {
+		numbers = NUMBERS
 	}
+
 	for i, c := range s {
 		if unicode.IsDigit(c) {
 			return string(c)
 		}
-		for j, word := range NUMBERS {
-			if reverse {
-				word = Reverse(word)
-			}
+		for j, word := range numbers {
 
 			if i+len(word) > len(s) {
 				continue
