@@ -4,4 +4,5 @@ use (
 	./01_trebuchet
 	./02_cube_conundrum
 	./03_gear_ratios
+	./04_scratchcards
 )
