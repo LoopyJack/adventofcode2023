@@ -5,4 +5,5 @@ use (
 	./02_cube_conundrum
 	./03_gear_ratios
 	./04_scratchcards
+	./05_seed_fertilizer
 )
