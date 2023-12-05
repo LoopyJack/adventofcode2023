@@ -78,15 +78,13 @@ func Part2(seeds []int, source map[string]*Mapping) {
 	res := []int{}
 	result := make(chan int)
 	for i := 0; i < len(seeds)-1; i += 2 {
-		// wg.Add(1)
-		// go SeedIterate(seeds[i], seeds[i+1], source, result, &wg)
-		temp := SeedIterate(seeds[i], seeds[i+1], source, result, &wg)
-		res = append(res, temp)
+		wg.Add(1)
+		go SeedIterate(seeds[i], seeds[i+1], source, result, &wg)
 	}
-	// for i := 0; i < len(seeds)-1; i += 2 {
-	// 	res = append(res, <-result)
-	// }
-	// wg.Wait()
+	for i := 0; i < len(seeds)-1; i += 2 {
+		res = append(res, <-result)
+	}
+	wg.Wait()
 
 	ans := res[0]
 	for _, num := range res {
@@ -100,9 +98,8 @@ func Part2(seeds []int, source map[string]*Mapping) {
 	fmt.Printf("Part 2 Time: %s\n\n", elapsed)
 }
 
-func SeedIterate(seed int, length int, source map[string]*Mapping, result chan<- int, wg *sync.WaitGroup) int {
-	fmt.Println(seed, length)
-	// defer wg.Done()
+func SeedIterate(seed int, length int, source map[string]*Mapping, result chan<- int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	ret := seed
 	for i := seed; i < seed+length; i++ {
 		res := GetLocation(i, source)
@@ -110,8 +107,7 @@ func SeedIterate(seed int, length int, source map[string]*Mapping, result chan<-
 			ret = res
 		}
 	}
-	// result <- ret
-	return ret
+	result <- ret
 }
 
 func GetLocation(seed int, source map[string]*Mapping) int {

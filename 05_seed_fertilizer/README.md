@@ -1,6 +1,7 @@
 # Day 05 If You Give A Seed A Fertilizer
 https://adventofcode.com/2023/day/5
 
+Brute forced.
 Used goroutines to speed things up.
 
 ## Part 1
